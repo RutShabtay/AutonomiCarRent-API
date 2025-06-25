@@ -10,6 +10,12 @@ export const getMeetingById = async (id: string): Promise<IMeeting | null> => {
 
 
 export const createMeeting = async (IMeeting: IMeeting): Promise<IMeeting | null> => {
+    const meetings = await Meeting.find({ date: IMeeting.date });
+    if (meetings.length > 0) {
+        const err = new Error('sorry, meeting in this date already exist.');
+        (err as any).statusCode = 400;
+        throw err;
+    }
     const meeting = new Meeting(IMeeting);
     return await meeting.save();
 }

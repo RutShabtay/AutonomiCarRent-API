@@ -1,4 +1,5 @@
 import express from "express";
+import { authorizationMiddleware } from '../middleware/authorization.middleware'
 import {
     getAll,
     getById,
@@ -14,6 +15,8 @@ const router = express.Router();
  * /api/service:
  *   get:
  *     summary: Get all services
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Service list retrieved successfully
@@ -25,6 +28,8 @@ router.get("/", getAll);
  * /api/service/{id}:
  *   get:
  *     summary: Get a service by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -43,6 +48,8 @@ router.get("/:id", getById);
  * /api/service:
  *   post:
  *     summary: Create a new service
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -67,13 +74,15 @@ router.get("/:id", getById);
  *       201:
  *         description: Service created successfully
  */
-router.post("/", create);
+router.post("/", authorizationMiddleware, create);
 
 /**
  * @swagger
  * /api/service/{id}:
  *   put:
  *     summary: Update a service by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -101,13 +110,15 @@ router.post("/", create);
  *       200:
  *         description: Service updated successfully
  */
-router.put("/:id", update);
+router.put("/:id", authorizationMiddleware, update);
 
 /**
  * @swagger
  * /api/service/{id}:
  *   delete:
  *     summary: Delete a service by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -119,6 +130,6 @@ router.put("/:id", update);
  *       204:
  *         description: Service deleted successfully
  */
-router.delete("/:id", remove);
+router.delete("/:id", authorizationMiddleware, remove);
 
 export default router;

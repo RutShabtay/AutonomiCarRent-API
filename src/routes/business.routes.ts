@@ -1,4 +1,5 @@
 import express from "express";
+import { authorizationMiddleware } from '../middleware/authorization.middleware'
 import {
   getAll,
   getById,
@@ -14,6 +15,8 @@ const router = express.Router();
  * /business:
  *   get:
  *     summary: get all businesses
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: business list retrieved successfully
@@ -25,6 +28,8 @@ router.get("/", getAll);
  * /business/{id}:
  *   get:
  *     summary: get a business by id
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -43,6 +48,8 @@ router.get("/:id", getById);
  * /api/business:
  *   post:
  *     summary: create a new business
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -62,13 +69,15 @@ router.get("/:id", getById);
  *       201:
  *         description: business created successfully
  */
-router.post("/", create);
+router.post("/", authorizationMiddleware, create);
 
 /**
  * @swagger
  * /business/{id}:
  *   put:
  *     summary: update a business by id
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -91,13 +100,15 @@ router.post("/", create);
  *       200:
  *         description: business updated successfully
  */
-router.put("/:id", update);
+router.put("/:id", authorizationMiddleware, update);
 
 /**
  * @swagger
  * /business/{id}:
  *   delete:
  *     summary: delete a business by id
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

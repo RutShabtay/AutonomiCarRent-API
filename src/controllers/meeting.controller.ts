@@ -30,7 +30,12 @@ export const create = async (req: Request, res: Response) => {
     try {
         const created = await createMeeting(req.body);
         res.status(201).json(created);
-    } catch (error) {
+
+    } catch (error: any) {
+
+        if (error.statusCode === 400) {
+            res.status(400).json({ message: error.message });
+        }
         console.error("Error creating Meeting:", error);
         res.status(500).json({ message: "Internal server error😣", error });
     }

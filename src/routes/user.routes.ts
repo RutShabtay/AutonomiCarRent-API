@@ -14,6 +14,8 @@ const router = express.Router();
  * /api/user:
  *   get:
  *     summary: Get all users
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: User list retrieved successfully
@@ -25,6 +27,8 @@ router.get('/', getAll);
  * /api/user/{id}:
  *   get:
  *     summary: Get a user by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -43,6 +47,8 @@ router.get('/:id', getById);
  * /api/user:
  *   post:
  *     summary: Create a new user
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -67,6 +73,8 @@ router.get('/:id', getById);
  *               phone:
  *                 type: string
  *                 pattern: '^[0-9]{9,10}$'
+ *               role:
+ *                type: string
  *     responses:
  *       201:
  *         description: User created successfully
@@ -78,6 +86,8 @@ router.post('/', create);
  * /api/user/{id}:
  *   put:
  *     summary: Update a user by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -115,6 +125,8 @@ router.put('/:id', update);
  * /api/user/{id}:
  *   delete:
  *     summary: Delete a user by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

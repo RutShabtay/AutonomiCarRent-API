@@ -7,6 +7,7 @@ export interface IUser extends Document {
     fullName?: string;
     phone?: string;
     createdAt?: Date;
+    role: 'admin' | 'user';
 }
 
 const userSchema = new Schema<IUser>({
@@ -40,6 +41,12 @@ const userSchema = new Schema<IUser>({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user',
+        required: true
     }
 });
 

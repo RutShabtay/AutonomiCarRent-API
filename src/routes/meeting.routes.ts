@@ -1,4 +1,5 @@
 import express from "express";
+import { authorizationMiddleware } from '../middleware/authorization.middleware'
 import {
     getAll,
     getById,
@@ -14,6 +15,8 @@ const router = express.Router();
  * /api/meeting:
  *   get:
  *     summary: Get all meetings
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Meeting list retrieved successfully
@@ -25,6 +28,8 @@ router.get("/", getAll);
  * /api/meeting/{id}:
  *   get:
  *     summary: Get a meeting by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -43,6 +48,8 @@ router.get("/:id", getById);
  * /api/meeting:
  *   post:
  *     summary: Create a new meeting
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -77,6 +84,8 @@ router.post("/", create);
  * /api/meeting/{id}:
  *   put:
  *     summary: Update a meeting by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -108,13 +117,15 @@ router.post("/", create);
  *       200:
  *         description: Meeting updated successfully
  */
-router.put("/:id", update);
+router.put("/:id", authorizationMiddleware, update);
 
 /**
  * @swagger
  * /api/meeting/{id}:
  *   delete:
  *     summary: Delete a meeting by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -126,6 +137,6 @@ router.put("/:id", update);
  *       204:
  *         description: Meeting deleted successfully
  */
-router.delete("/:id", remove);
+router.delete("/:id", authorizationMiddleware, remove);
 
 export default router;

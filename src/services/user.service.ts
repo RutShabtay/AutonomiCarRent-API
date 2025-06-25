@@ -1,4 +1,5 @@
 import User, { IUser } from '../models/user.model';
+import bcrypt from 'bcrypt';
 
 export const getAllUsers = async () => {
     return await User.find();
@@ -9,6 +10,12 @@ export const getUserById = async (id: string) => {
 };
 
 export const createUser = async (newUser: IUser) => {
+    const { password } = newUser;
+    if (!password) {
+        throw new Error('Password is required');
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    newUser.password = hashedPassword;
     const user = new User(newUser);
     return await user.save();
 };

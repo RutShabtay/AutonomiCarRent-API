@@ -1,3 +1,4 @@
+import logger from '../logs/logger';
 import { Request, Response } from 'express';
 import User, { IUser } from '../models/user.model';
 
@@ -10,11 +11,13 @@ export const login = async (req: Request, res: Response) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
+            logger.info("ERROR: (status 400) Email and password are required")
             res.status(400).json({ message: 'Email and password are required' }); return;
         }
 
         const user = await User.findOne({ email });
         if (!user) {
+            logger.info("ERROR: (status 404) User not found")
             res.status(404).json({ message: 'User not found' });
             return;
         }
@@ -22,6 +25,7 @@ export const login = async (req: Request, res: Response) => {
         // Compare the provided password with the hashed password in the database
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
+            logger.info("ERROR: (status 401) Invalid credentials")
             res.status(401).json({ message: 'Invalid credentials' });
             return;
 
@@ -33,12 +37,14 @@ export const login = async (req: Request, res: Response) => {
             process.env.JWT_SECRET!,
             { expiresIn: '2h' }
         )
+        logger.info("Login successful🎉🎉🎉")
 
         res.status(200).json({
             message: 'Login successful🎉🎉🎉', token
         });
 
     } catch (error) {
+        logger.info("Error during login")
         console.error('Error during login:', error);
         res.status(500).json({ message: 'Internal server error😣', error });
         return;

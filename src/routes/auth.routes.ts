@@ -1,6 +1,9 @@
+import { Request, Response } from "express";
 import express from 'express';
+import passport from '../config/passport';
 import { login } from '../controllers/auth.controller';
 import { signUp } from '../controllers/auth.controller';
+import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 
@@ -87,5 +90,54 @@ router.post('/login', login);
  */
 
 router.post('/signUp', signUp);
+
+
+/**
+ * @swagger
+ * /api/auth/google:
+ *   get:
+ *     summary: Redirects user to Google for authentication
+ *     responses:
+ *       302:
+ *         description: Redirect to Google login page
+ */
+router.get('/google', passport.authenticate('google', {
+    scope: ['profile', 'email'],
+}));
+
+
+
+/**
+ * @swagger
+ * /api/auth/google/callback:
+ *   get:
+ *     summary: Google OAuth2 callback
+ *     responses:
+ *       200:
+ *         description: Returns JWT token after successful login with Google
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ */
+
+router.get('/google/callback',
+    passport.authenticate('google', { session: false }),
+    (req: Request, res: Response) => {
+        const user = req.user as any;
+
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET!,
+            { expiresIn: '1h' }
+        );
+
+        res.json({ token });
+    }
+);
+
 
 export default router;

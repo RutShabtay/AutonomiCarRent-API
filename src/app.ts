@@ -1,3 +1,4 @@
+import passport from './config/passport';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 
 connectDB();
 
+app.use(passport.initialize());
 app.use('/api/business', authMiddleware, businessRouter);
 app.use('/api/meeting', authMiddleware, meetingRouter);
 app.use('/api/service', authMiddleware, serviceRouter);

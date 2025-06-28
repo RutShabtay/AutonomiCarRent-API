@@ -15,7 +15,8 @@ Autonomous car rentals are revolutionizing the way we move — and this API deli
 - ✅ **Meetings** – Schedule rental periods while preventing overlapping appointments
 - ✅ **Users** – Allow user registration and handle role-based access (e.g., clients vs. admins)
 - ✅ **Security** – Enforce token-based authentication and admin-only permissions for sensitive operations
-- ✅ **Testing** – Every service is tested using Jest to ensure stability and reliability
+- ✅ **Authentication** – Supports Google OAuth 2.0 for easy and secure user login  
+- ✅ **Testing** – Every service is tested using Jest to ensure stability and reliability  
 
 ---
 
@@ -23,7 +24,7 @@ Autonomous car rentals are revolutionizing the way we move — and this API deli
 
 - **Node.js** – Backend runtime environment
 - **Express.js** – HTTP server framework
-- **MongoDB** – NoSQL database
+- **MongoDB Atlas** – Cloud-hosted NoSQL database  
 - **Mongoose** – ORM for MongoDB
 - **JWT** – Token-based authentication
 - **bcrypt** – Password encryption
@@ -105,6 +106,8 @@ Test files are located in the tests/ directory (e.g. user.test.ts ) and include 
 - Passwords are hashed using **bcrypt**  
 - JWTs are used for all protected API routes.
 - Middleware ensures valid tokens and enforces role-based access (e.g., admin).
+- Google OAuth 2.0 authentication is supported, allowing users to sign in easily with their Google accounts via api/auth/google routes
+
 ---
 
 ## 📊 API Documentation
@@ -127,7 +130,7 @@ It helps small-to-medium rental businesses transition into automated platforms w
 ---
 
 
-                                         💖 Made with Love by **Ruthi Shabtay** 💖
+                                  💖 Made with Love by **Ruthi Shabtay** 💖
 
 
 ---
